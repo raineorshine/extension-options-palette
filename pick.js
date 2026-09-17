@@ -64,7 +64,10 @@ input.addEventListener('keydown', event => {
   if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
     event.preventDefault()
     if (!matches.length) return
-    selected = (selected + (event.key === 'ArrowDown' ? 1 : -1) + matches.length) % matches.length
+    const step = event.key === 'ArrowDown' ? 1 : -1
+    const last = matches.length - 1
+    // Cmd goes straight to the end the arrow points at; the arrow alone stops there instead of wrapping around.
+    selected = event.metaKey ? (step > 0 ? last : 0) : Math.min(Math.max(selected + step, 0), last)
     render()
   } else if (event.key === 'Enter' && matches[selected]) {
     open(matches[selected])
