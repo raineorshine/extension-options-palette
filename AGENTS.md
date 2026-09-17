@@ -2,7 +2,8 @@
 
 Brave extension in plain HTML, CSS and JS with no build step. Cmd+Shift+, opens a popup that searches
 every enabled extension with an options page, and Enter opens the chosen one's options page in a new
-tab beside the current one. Brave loads this folder directly (Load unpacked).
+tab beside the current one. Before anything is typed, the list starts with Keyboard Shortcuts, which
+opens brave://extensions/shortcuts. Brave loads this folder directly (Load unpacked).
 
 - `manifest.json` — the `management` permission for the extension list, the popup
   (`action.default_popup`), and the shortcut (`commands._execute_action.suggested_key`).
@@ -35,6 +36,13 @@ global only on Ctrl+Shift+[0-9] (not tried).
   Claude in Chrome's `navigate` turns `brave://extensions` and `chrome://extensions` into
   `https://brave//extensions`. Neither reaches the Load unpacked folder picker, and
   `open -a 'Brave Browser' 'brave://extensions'` is ignored (nothing in the session log).
+
+## Opening Brave's pages
+
+- **`chrome.tabs.create` from an extension page opens `brave://` and `chrome://` URLs alike:** both
+  `brave://extensions/shortcuts` and `chrome://extensions/shortcuts` landed on
+  `chrome://extensions/shortcuts`. Navigating an existing tab to another extension's page is a
+  different matter (Dead ends).
 
 ## Brave's own records
 

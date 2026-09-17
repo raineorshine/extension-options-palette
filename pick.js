@@ -1,9 +1,13 @@
 // The popup Cmd+Shift+, opens. Lists the enabled extensions that have an options page, narrows the list
-// as you type, and opens the chosen one's options page in a new tab beside the current one.
+// as you type, and opens the chosen one's options page in a new tab beside the current one. Before
+// anything is typed, Brave's Keyboard Shortcuts page leads the list.
 // AGENTS.md covers loading, reloading and testing it, and what did not work.
 
 const input = document.querySelector('input')
 const list = document.querySelector('ul')
+
+// Brave opens brave:// and chrome:// here alike; both landed on chrome://extensions/shortcuts.
+const keyboardShortcuts = { name: 'Keyboard Shortcuts', url: 'brave://extensions/shortcuts' }
 
 let extensions = []
 let matches = []
@@ -11,11 +15,11 @@ let selected = 0
 
 const wordStart = (name, token) => new RegExp(`(^|[^\\p{L}\\p{N}])${RegExp.escape(token)}`, 'iu').test(name)
 
-/** Returns the extensions whose names contain every word of the query, best match first: a name that starts with the query, then a word that starts with it, then anything else. Ties keep alphabetical order. */
+/** Returns the extensions whose names contain every word of the query, best match first: a name that starts with the query, then a word that starts with it, then anything else. Ties keep alphabetical order. An empty query returns every extension, after Keyboard Shortcuts. */
 const filter = query => {
   const tokens = query.toLowerCase().split(/\s+/).filter(Boolean)
-  const rank = ({ name }) =>
-    name.toLowerCase().startsWith(tokens.join(' ')) ? 0 : tokens.length && wordStart(name, tokens[0]) ? 1 : 2
+  if (!tokens.length) return [keyboardShortcuts, ...extensions]
+  const rank = ({ name }) => (name.toLowerCase().startsWith(tokens.join(' ')) ? 0 : wordStart(name, tokens[0]) ? 1 : 2)
   return extensions
     .filter(({ name }) => tokens.every(token => name.toLowerCase().includes(token)))
     .sort((a, b) => rank(a) - rank(b))
@@ -23,21 +27,21 @@ const filter = query => {
 
 const render = () => {
   list.replaceChildren(
-    ...matches.map((extension, i) => {
+    ...matches.map((match, i) => {
       const item = document.createElement('li')
       item.role = 'option'
-      item.textContent = extension.name
+      item.textContent = match.name
       item.ariaSelected = String(i === selected)
-      item.addEventListener('click', () => open(extension))
+      item.addEventListener('click', () => open(match))
       return item
     }),
   )
   list.children[selected]?.scrollIntoView({ block: 'nearest' })
 }
 
-const open = async extension => {
+const open = async match => {
   const [current] = await chrome.tabs.query({ active: true, currentWindow: true })
-  await chrome.tabs.create({ url: extension.optionsUrl, ...(current && { index: current.index + 1 }) })
+  await chrome.tabs.create({ url: match.url, ...(current && { index: current.index + 1 }) })
   window.close()
 }
 
@@ -60,9 +64,13 @@ input.addEventListener('keydown', event => {
   }
 })
 
+matches = filter(input.value)
+render()
+
 chrome.management.getAll().then(all => {
   extensions = all
     .filter(extension => extension.enabled && extension.optionsUrl)
+    .map(extension => ({ name: extension.name, url: extension.optionsUrl }))
     .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }))
   matches = filter(input.value)
   render()
