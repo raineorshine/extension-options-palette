@@ -127,6 +127,55 @@ and session alone:
 - **Stop it by its profile path**, `pkill -f -- "--user-data-dir=$SCRATCH/profile"`, which cannot match
   the user's Brave.
 
+## Workflow
+
+Work happens on a branch in a worktree. The main checkout is the folder the browser has loaded, so
+`main` is what the user is running.
+
+- **Putting a branch in front of the user** goes through the `test` skill, which holds the live-slot
+  lock in [scripts/extension-test-lock.sh](scripts/extension-test-lock.sh) while the browser runs
+  that branch.
+- **Landing a change** goes through the `ship` skill: squash, push to `origin/main`, fast-forward the
+  local `main`. No pull request.
+- **Shipping is asked for, never inferred.** A change that is finished and tried is *ready* to ship;
+  only the user asking starts it.
+- The skills live in `.github/skills/`, and `.claude/skills` is a symlink to that directory — a diff
+  naming `.github/skills/…` after an edit through `.claude/skills/…` is the same file.
+
+## Session titles
+
+The sidebar shows a status dot and a branch glyph, and neither can be set from here. A **single
+leading emoji on the title** is the only lever, and it is spent on what the app cannot know: where
+the work stands — so the sidebar answers "which session has my browser" without opening any of them.
+
+| Prefix | Means                                                             |
+| ------ | ----------------------------------------------------------------- |
+| `⏳ `  | working — brainstorming, planning or building                     |
+| `🔓 `  | waiting for the live slot, or releasing it                        |
+| `🔒 `  | holding the live slot: the browser is running this branch         |
+| `📦 `  | committed and tried, shippable without redoing anything           |
+| `🚀 `  | shipping to `main`, or shipped                                    |
+| `🚙 `  | parked: the work is sound and waiting on the user                 |
+| `🪦 `  | dead end — kept for the findings, not to resume                   |
+
+**Never mention a prefix in the response** — not what it was set to, not that it was already right,
+not that it was left alone. It is sidebar state; say nothing about it unless asked.
+
+These are stages, not flags: exactly one at a time, and setting a new one replaces whatever was
+there. Every title carries one, and the first goes onto the harness-given title as part of the first
+response. Set a prefix when the stage *starts*, not when it succeeds, and correct it if the stage
+falls over — a title that only becomes true at the end is blank for the whole stretch the sidebar is
+there to describe. `test` and `ship` set `🔓 `, `🔒 ` and `🚀 ` themselves; the rest go on by hand,
+and nothing reconciles a title against reality. Handing back is itself a stage: a response that
+closes on something for the user to do is a park, and `🚙 ` goes on before that response, since the
+idle dot cannot tell "waiting on you" from "given up on".
+
+**Ask which session this is before renaming one.** The session-info tool with `"self"` is the only
+answer, and it changes under a fork: a forked session carries the whole transcript, the id it read
+earlier in that transcript, and a different id of its own, so a rename that reuses the remembered one
+retitles the session it forked _from_ — often the one holding the lock, whose title is the one the
+sidebar most needs to be true.
+
 ## Working agreements
 
 - **The README and `docs/` say Chrome, not Brave.** Brave is named only where the behavior is
