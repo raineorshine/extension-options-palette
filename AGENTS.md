@@ -1,10 +1,10 @@
 # AGENTS.md
 
-Brave extension in plain HTML, CSS and JS with no build step. Cmd+Shift+, opens a popup that searches
+Chrome extension in plain HTML, CSS and JS with no build step. Cmd+Shift+, opens a popup that searches
 every enabled extension with an options page, and Enter opens the chosen one's options page in a new
 tab beside the current one. Before anything is typed, the list starts with Manage Extensions and
 Keyboard Shortcuts, which open chrome://extensions/ and chrome://extensions/shortcuts, above an
-Extensions heading. Brave loads this folder directly (Load unpacked).
+Extensions heading. The browser loads this folder directly (Load unpacked).
 
 - `manifest.json` — the `management` permission for the extension list, the popup
   (`action.default_popup`), and the shortcut (`commands._execute_action.suggested_key`).
@@ -133,6 +133,10 @@ and session alone:
 
 ## Working agreements
 
+- **The README and `docs/` say Chrome, not Brave.** Brave is named only where the behavior is
+  Brave-specific and does not hold in Chrome — Brave's own JSON records, its blocking of
+  extension-initiated navigation, the headless test browser. AGENTS.md keeps naming Brave, since
+  it describes the browser this extension is actually loaded and tested in.
 - After a solved, verified problem, automatically invoke the `ce-compound` skill with
   `mode:non-interactive` at the completion checkpoint only when the work produced durable project
   reasoning that is not readily recoverable from the final code, tests, types, comments, or existing

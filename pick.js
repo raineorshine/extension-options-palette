@@ -1,6 +1,6 @@
 // The popup Cmd+Shift+, opens. Lists the enabled extensions that have an options page, narrows the list
 // as you type, and opens the chosen one's options page in a new tab beside the current one. Before
-// anything is typed, Brave's Extensions and Keyboard Shortcuts pages lead the list.
+// anything is typed, the browser's Extensions and Keyboard Shortcuts pages lead the list.
 // AGENTS.md covers loading, reloading and testing it, and what did not work.
 
 const input = document.querySelector('input')
