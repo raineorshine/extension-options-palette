@@ -6,8 +6,8 @@
 const input = document.querySelector('input')
 const list = document.querySelector('ul')
 
-// Brave opens brave:// and chrome:// here alike; both landed on chrome://extensions/shortcuts.
-const keyboardShortcuts = { name: 'Keyboard Shortcuts', url: 'brave://extensions/shortcuts' }
+// chrome://, not brave://: Brave opens either one here, but Chrome leaves brave:// on a blank tab.
+const keyboardShortcuts = { name: 'Keyboard Shortcuts', url: 'chrome://extensions/shortcuts' }
 
 let extensions = []
 let matches = []

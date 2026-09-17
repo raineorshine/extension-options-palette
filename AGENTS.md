@@ -3,7 +3,7 @@
 Brave extension in plain HTML, CSS and JS with no build step. Cmd+Shift+, opens a popup that searches
 every enabled extension with an options page, and Enter opens the chosen one's options page in a new
 tab beside the current one. Before anything is typed, the list starts with Keyboard Shortcuts, which
-opens brave://extensions/shortcuts. Brave loads this folder directly (Load unpacked).
+opens chrome://extensions/shortcuts. Brave loads this folder directly (Load unpacked).
 
 - `manifest.json` — the `management` permission for the extension list, the popup
   (`action.default_popup`), and the shortcut (`commands._execute_action.suggested_key`).
@@ -37,12 +37,16 @@ global only on Ctrl+Shift+[0-9] (not tried).
   `https://brave//extensions`. Neither reaches the Load unpacked folder picker, and
   `open -a 'Brave Browser' 'brave://extensions'` is ignored (nothing in the session log).
 
-## Opening Brave's pages
+## Opening the browser's own pages
 
-- **`chrome.tabs.create` from an extension page opens `brave://` and `chrome://` URLs alike:** both
-  `brave://extensions/shortcuts` and `chrome://extensions/shortcuts` landed on
+- **`chrome.tabs.create` from an extension page opens `brave://` and `chrome://` URLs alike in Brave:**
+  both `brave://extensions/shortcuts` and `chrome://extensions/shortcuts` landed on
   `chrome://extensions/shortcuts`. Navigating an existing tab to another extension's page is a
   different matter (Dead ends).
+- **Chrome has no `brave://`, so Keyboard Shortcuts uses `chrome://`.** In Chrome for Testing 152,
+  `chrome.tabs.create` with `brave://extensions/shortcuts` resolved without an error and left the new
+  tab on `about:blank` with nothing in its history. `chrome://extensions/shortcuts` opened the
+  shortcuts view in both browsers.
 
 ## Brave's own records
 
@@ -102,6 +106,10 @@ and session alone:
   not found".
 - **Load a second unpacked extension with an options page as the target** of anything that opens
   another extension's page.
+- **Chrome for Testing checks Chrome's behavior**, since Chrome is not installed: Puppeteer's cache has
+  builds under `~/.cache/puppeteer/chrome/mac_arm-<version>/chrome-mac-arm64/`. 152 took the same
+  flags and gave the same pinned id. Both browsers ran with `--use-mock-keychain` as well (not tried
+  without it).
 - **It does not test the shortcut or the popup.** CDP key events go to the page rather than to Brave's
   accelerators (not tried), and headless has no toolbar for a popup. Test those in the user's Brave
   after a reload, with the `extensions.commands` check above first.
