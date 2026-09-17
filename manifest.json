@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Extension Options",
+  "description": "Search your extensions and open one's options page. Cmd+Shift+, opens the search box.",
+  "version": "1.0.0",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAk3FqvINB1vWMaohCYaGO4vWNd/rrRIHhjfR7oFfsG72cHMJjezgDoZqsBEdBVTfNnCuFhkc0hTFq5XnjInaZGgN7CyeSMy9uAe2olT8UEq8FnfxcxzvLc+J1lj08XxIbuw2dJvToVSzZ2dgBt9agtDcJnshLcW+J1ahbOqNwBS5EfoPg6cRYpuXgIm/0XJ+JKa4bsyYUIIEWpEVOOkk9/8y3WyGHWaa1/RKHeRaRJGbsPB5TmTrLkQelXd0KHKFM4ZuaWocfygj9nOyFm1HLrCe7vJJUGeGAHGhSeo6GMM7QEfJZqV7IG+AbFKUOXu+rW3Z1SIAnlzuzyKZk3MyVOQIDAQAB",
+  "permissions": ["management"],
+  "action": {
+    "default_title": "Search extension options",
+    "default_popup": "pick.html"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "mac": "Command+Shift+Comma"
+      }
+    }
+  }
+}

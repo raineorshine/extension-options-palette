@@ -1,0 +1,73 @@
+:root {
+  color-scheme: light dark;
+  --background: #ffffff;
+  --text: #1f1f1f;
+  --muted: #6e6e73;
+  --border: #d2d2d7;
+  --focus: #5b5fc7;
+  --selected: #e8e8ed;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #202124;
+    --text: #e8eaed;
+    --muted: #9aa0a6;
+    --border: #3c4043;
+    --focus: #8c8fe8;
+    --selected: #35363a;
+  }
+}
+
+body {
+  width: 22rem;
+  margin: 0;
+  padding: 0.5rem;
+  background: var(--background);
+  color: var(--text);
+  font:
+    14px/1.4 system-ui,
+    sans-serif;
+}
+
+input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 1rem;
+}
+
+input:focus {
+  border-color: var(--focus);
+}
+
+ul {
+  max-height: 30rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+li {
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  cursor: default;
+}
+
+li[aria-selected='true'] {
+  background: var(--selected);
+}
+
+ul:empty::before {
+  display: block;
+  padding: 0.4rem 0.7rem;
+  color: var(--muted);
+  content: 'No matching extensions';
+}
