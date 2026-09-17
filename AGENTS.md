@@ -94,11 +94,21 @@ A second, headless Brave on a scratch profile runs the real extension and leaves
 and session alone:
 
 ```sh
-"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --headless=new --user-data-dir="$SCRATCH/profile" --remote-debugging-port=9333 --no-first-run --disable-features=DisableLoadExtensionCommandLineSwitch --load-extension="$SCRATCH/target,$SCRATCH/extension"
+"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --headless=new --user-data-dir="$SCRATCH/profile" --remote-debugging-port=0 --no-first-run --disable-features=DisableLoadExtensionCommandLineSwitch --load-extension="$SCRATCH/target,$SCRATCH/extension"
 ```
 
 - **Brave 1.95 honored `--load-extension`** with that feature disabled (not tried without it), and the
   manifest `key` gave the pinned id.
+- **Let `--remote-debugging-port=0` pick the port, and read it from `DevToolsActivePort`.** Sessions
+  in other worktrees run their own headless browsers at the same time, and a fixed port fails two
+  ways. The second browser cannot listen on it, and a CDP script connecting to it drives the other
+  session's browser: its copy of the extension has the same pinned id, so a test passes or fails
+  against the wrong code with no error. Chromium writes the port as the first line of
+  `$SCRATCH/profile/DevToolsActivePort` once DevTools is listening; Brave 1.95 and Chrome for
+  Testing 152 both did, and CDP from node 24 connected on that port.
+- **A reused profile keeps the last run's `DevToolsActivePort`** until the new browser overwrites
+  it, so a script waiting for the file reads the old port at once. Delete the profile (or the file)
+  before relaunching.
 - **Drive it over CDP from node 24, which has a global `WebSocket`.** `Target.createTarget` a
   `chrome-extension://` page, `Target.attachToTarget` with `flatten: true`, then `Runtime.evaluate`
   with `awaitPromise`: extension APIs work there (`chrome.commands.getAll()` showed `⇧⌘,` assigned),
