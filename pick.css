@@ -65,6 +65,29 @@ li[aria-selected='true'] {
   background: var(--selected);
 }
 
+li[data-icon] {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+li[data-icon]::before {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  mask: center / contain no-repeat;
+  content: '';
+}
+
+li[data-icon='gear']::before {
+  mask-image: url('gear.svg');
+}
+
+li[data-icon='keyboard']::before {
+  mask-image: url('keyboard.svg');
+}
+
 li[role='presentation'] {
   padding: 0.9rem 0.7rem 0.5rem;
   color: var(--muted);

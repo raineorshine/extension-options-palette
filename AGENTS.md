@@ -9,6 +9,8 @@ Extensions heading. Brave loads this folder directly (Load unpacked).
 - `manifest.json` — the `management` permission for the extension list, the popup
   (`action.default_popup`), and the shortcut (`commands._execute_action.suggested_key`).
 - `pick.html`, `pick.css`, `pick.js` — the popup.
+- `gear.svg`, `keyboard.svg` — the icons beside Manage Extensions and Keyboard Shortcuts. `pick.css`
+  uses them as masks over the text color, so only their shape counts, not their stroke color.
 
 ## Why the shortcut is in the extension
 

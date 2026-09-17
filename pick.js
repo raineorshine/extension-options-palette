@@ -9,8 +9,8 @@ const list = document.querySelector('ul')
 // chrome://, not brave://: Brave opens either one here, but Chrome leaves brave:// on a blank tab.
 // Manage Extensions, as Chrome's menu names that page, since Extensions names the heading below.
 const pages = [
-  { name: 'Manage Extensions', url: 'chrome://extensions/' },
-  { name: 'Keyboard Shortcuts', url: 'chrome://extensions/shortcuts' },
+  { name: 'Manage Extensions', url: 'chrome://extensions/', icon: 'gear' },
+  { name: 'Keyboard Shortcuts', url: 'chrome://extensions/shortcuts', icon: 'keyboard' },
 ]
 const extensionsHeading = Object.assign(document.createElement('li'), {
   role: 'presentation',
@@ -38,6 +38,7 @@ const render = () => {
     const item = document.createElement('li')
     item.role = 'option'
     item.textContent = match.name
+    if (match.icon) item.dataset.icon = match.icon
     item.ariaSelected = String(i === selected)
     item.addEventListener('click', () => open(match))
     return item
