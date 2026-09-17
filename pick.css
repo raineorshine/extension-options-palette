@@ -65,18 +65,10 @@ li[aria-selected='true'] {
   background: var(--selected);
 }
 
-.keyboard-shortcuts:not(:last-child) {
-  position: relative;
-  margin-bottom: calc(0.5rem + 1px);
-}
-
-.keyboard-shortcuts:not(:last-child)::after {
-  position: absolute;
-  top: calc(100% + 0.25rem);
-  right: 0;
-  left: 0;
-  border-top: 1px solid var(--border);
-  content: '';
+li[role='presentation'] {
+  padding: 0.9rem 0.7rem 0.5rem;
+  color: var(--muted);
+  font-size: 12px;
 }
 
 ul:empty::before {

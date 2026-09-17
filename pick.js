@@ -7,8 +7,14 @@ const input = document.querySelector('input')
 const list = document.querySelector('ul')
 
 // chrome://, not brave://: Brave opens either one here, but Chrome leaves brave:// on a blank tab.
-const extensionsPage = { name: 'Extensions', url: 'chrome://extensions/' }
-const keyboardShortcuts = { name: 'Keyboard Shortcuts', url: 'chrome://extensions/shortcuts' }
+const pages = [
+  { name: 'Extensions', url: 'chrome://extensions/' },
+  { name: 'Keyboard Shortcuts', url: 'chrome://extensions/shortcuts' },
+]
+const extensionsHeading = Object.assign(document.createElement('li'), {
+  role: 'presentation',
+  textContent: 'Extensions',
+})
 
 let extensions = []
 let matches = []
@@ -19,7 +25,7 @@ const wordStart = (name, token) => new RegExp(`(^|[^\\p{L}\\p{N}])${RegExp.escap
 /** Returns the extensions whose names contain every word of the query, best match first: a name that starts with the query, then a word that starts with it, then anything else. Ties keep alphabetical order. An empty query returns every extension, after Extensions and Keyboard Shortcuts. */
 const filter = query => {
   const tokens = query.toLowerCase().split(/\s+/).filter(Boolean)
-  if (!tokens.length) return [extensionsPage, keyboardShortcuts, ...extensions]
+  if (!tokens.length) return [...pages, ...extensions]
   const rank = ({ name }) => (name.toLowerCase().startsWith(tokens.join(' ')) ? 0 : wordStart(name, tokens[0]) ? 1 : 2)
   return extensions
     .filter(({ name }) => tokens.every(token => name.toLowerCase().includes(token)))
@@ -27,18 +33,17 @@ const filter = query => {
 }
 
 const render = () => {
-  list.replaceChildren(
-    ...matches.map((match, i) => {
-      const item = document.createElement('li')
-      item.role = 'option'
-      item.textContent = match.name
-      item.ariaSelected = String(i === selected)
-      if (match === keyboardShortcuts) item.className = 'keyboard-shortcuts'
-      item.addEventListener('click', () => open(match))
-      return item
-    }),
-  )
-  list.children[selected]?.scrollIntoView({ block: 'nearest' })
+  const options = matches.map((match, i) => {
+    const item = document.createElement('li')
+    item.role = 'option'
+    item.textContent = match.name
+    item.ariaSelected = String(i === selected)
+    item.addEventListener('click', () => open(match))
+    return item
+  })
+  list.replaceChildren(...options)
+  if (matches[0] === pages[0]) options[pages.length]?.before(extensionsHeading)
+  options[selected]?.scrollIntoView({ block: 'nearest' })
 }
 
 const open = async match => {
