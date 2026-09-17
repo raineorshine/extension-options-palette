@@ -32,6 +32,7 @@ const render = () => {
       item.role = 'option'
       item.textContent = match.name
       item.ariaSelected = String(i === selected)
+      if (match === keyboardShortcuts) item.className = 'keyboard-shortcuts'
       item.addEventListener('click', () => open(match))
       return item
     }),
