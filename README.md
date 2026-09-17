@@ -1,4 +1,4 @@
-# extension-options
+# extension-options-palette
 
 A Brave extension that opens any extension's options page from the keyboard.
 
