@@ -57,16 +57,19 @@ fast-forward, so the loser rebases and retries; nothing is lost and no merge com
 
 ### 5. Fast-forward the local main — this is what the user sees
 
-Only from a main checkout that is on `main` and clean:
+Only when that checkout is on a branch — the `symbolic-ref` test is the guard, not a formality:
 
 ```sh
 MAIN=$(git worktree list --porcelain | head -1 | sed 's/^worktree //')
-git -C "$MAIN" merge --ff-only origin/main
+git -C "$MAIN" symbolic-ref --quiet HEAD >/dev/null &&
+  git -C "$MAIN" merge --ff-only origin/main
 ```
 
-**Skip it when that checkout is detached or dirty**: another session has its branch in the slot, and
-fast-forwarding over it would uninstall the branch they are testing. The ship already happened at
-step 4 — only the local ref lags, and whoever holds the slot brings it forward when they release.
+**A detached checkout means another session has its branch in the slot, and `merge --ff-only` would
+fast-forward that detached HEAD without a word** — swapping the files under a branch someone is
+mid-test on. Skipping costs nothing: the ship already happened at step 4, only the local ref lags,
+and whoever holds the slot brings it forward when they release. A dirty checkout needs no guard here;
+git refuses that merge loudly on its own.
 
 Say so in the report when it lags: the user cannot see that the change is on GitHub but not yet in
 their browser, and that is the one consequence of this step they would otherwise discover by
