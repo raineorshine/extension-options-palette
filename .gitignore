@@ -3,3 +3,6 @@
 # Claude Code: only machine-local state.
 .claude/worktrees/
 .claude/settings.local.json
+
+# Compound Engineering: local scratch.
+.context/compound-engineering/

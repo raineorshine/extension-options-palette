@@ -11,6 +11,8 @@ Extensions heading. Brave loads this folder directly (Load unpacked).
 - `pick.html`, `pick.css`, `pick.js` — the popup.
 - `gear.svg`, `keyboard.svg` — the icons beside Manage Extensions and Keyboard Shortcuts. `pick.css`
   uses them as masks over the text color, so only their shape counts, not their stroke color.
+- `docs/solutions/` — documented solutions to past problems (bugs, best practices, workflow
+  patterns), organized by category with YAML frontmatter (`module`, `tags`, `problem_type`).
 
 ## Why the shortcut is in the extension
 
@@ -128,3 +130,15 @@ and session alone:
   after a reload, with the `extensions.commands` check above first.
 - **Stop it by its profile path**, `pkill -f -- "--user-data-dir=$SCRATCH/profile"`, which cannot match
   the user's Brave.
+
+## Working agreements
+
+- After a solved, verified problem, automatically invoke the `ce-compound` skill with
+  `mode:non-interactive` at the completion checkpoint only when the work produced durable project
+  reasoning that is not readily recoverable from the final code, tests, types, comments, or existing
+  documentation, and losing it would plausibly cause recurrence, material risk, or substantial
+  rediscovery. Apply this counterfactual: if the learning document disappeared, would a future
+  engineer reading the final implementation still be likely to repeat the mistake or redo
+  substantial investigation? If not, do not invoke it. Completion, effort, and diff size alone are
+  not enough. Capture at the checkpoint so a qualifying learning can ship in the PR that produced
+  it, and only where the repository treats captured learnings as tracked, committed knowledge.
