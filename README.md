@@ -8,7 +8,7 @@ A Brave extension that opens any extension's options page from the keyboard.
 | -------------------------------------- | ---------------------------------------------------------------------------- |
 | <kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>,</kbd> | Open a popup that searches every enabled extension that has an options page. |
 
-Before anything is typed, the list starts with **Keyboard Shortcuts**, which opens brave://extensions/shortcuts. Type to narrow the list, <kbd>↑</kbd>/<kbd>↓</kbd> to move, <kbd>Enter</kbd> to open the selected extension's options page in a new tab beside the current one, <kbd>Esc</kbd> to close. The shortcut can be changed at brave://extensions/shortcuts.
+Before anything is typed, the list starts with **Extensions** and **Keyboard Shortcuts**, which open brave://extensions/ and brave://extensions/shortcuts. Type to narrow the list, <kbd>↑</kbd>/<kbd>↓</kbd> to move, <kbd>Enter</kbd> to open the selected extension's options page in a new tab beside the current one, <kbd>Esc</kbd> to close. The shortcut can be changed at brave://extensions/shortcuts.
 
 ## Install
 

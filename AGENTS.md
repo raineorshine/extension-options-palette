@@ -2,8 +2,9 @@
 
 Brave extension in plain HTML, CSS and JS with no build step. Cmd+Shift+, opens a popup that searches
 every enabled extension with an options page, and Enter opens the chosen one's options page in a new
-tab beside the current one. Before anything is typed, the list starts with Keyboard Shortcuts, which
-opens chrome://extensions/shortcuts. Brave loads this folder directly (Load unpacked).
+tab beside the current one. Before anything is typed, the list starts with Extensions and Keyboard
+Shortcuts, which open chrome://extensions/ and chrome://extensions/shortcuts. Brave loads this folder
+directly (Load unpacked).
 
 - `manifest.json` — the `management` permission for the extension list, the popup
   (`action.default_popup`), and the shortcut (`commands._execute_action.suggested_key`).
@@ -43,10 +44,10 @@ global only on Ctrl+Shift+[0-9] (not tried).
   both `brave://extensions/shortcuts` and `chrome://extensions/shortcuts` landed on
   `chrome://extensions/shortcuts`. Navigating an existing tab to another extension's page is a
   different matter (Dead ends).
-- **Chrome has no `brave://`, so Keyboard Shortcuts uses `chrome://`.** In Chrome for Testing 152,
-  `chrome.tabs.create` with `brave://extensions/shortcuts` resolved without an error and left the new
-  tab on `about:blank` with nothing in its history. `chrome://extensions/shortcuts` opened the
-  shortcuts view in both browsers.
+- **Chrome has no `brave://`, so Extensions and Keyboard Shortcuts use `chrome://`.** In Chrome for
+  Testing 152, `chrome.tabs.create` with `brave://extensions/shortcuts` resolved without an error and
+  left the new tab on `about:blank` with nothing in its history. `chrome://extensions/shortcuts` opened
+  the shortcuts view in both browsers, and `chrome://extensions/` the Extensions page.
 
 ## Brave's own records
 

@@ -1,12 +1,13 @@
 // The popup Cmd+Shift+, opens. Lists the enabled extensions that have an options page, narrows the list
 // as you type, and opens the chosen one's options page in a new tab beside the current one. Before
-// anything is typed, Brave's Keyboard Shortcuts page leads the list.
+// anything is typed, Brave's Extensions and Keyboard Shortcuts pages lead the list.
 // AGENTS.md covers loading, reloading and testing it, and what did not work.
 
 const input = document.querySelector('input')
 const list = document.querySelector('ul')
 
 // chrome://, not brave://: Brave opens either one here, but Chrome leaves brave:// on a blank tab.
+const extensionsPage = { name: 'Extensions', url: 'chrome://extensions/' }
 const keyboardShortcuts = { name: 'Keyboard Shortcuts', url: 'chrome://extensions/shortcuts' }
 
 let extensions = []
@@ -15,10 +16,10 @@ let selected = 0
 
 const wordStart = (name, token) => new RegExp(`(^|[^\\p{L}\\p{N}])${RegExp.escape(token)}`, 'iu').test(name)
 
-/** Returns the extensions whose names contain every word of the query, best match first: a name that starts with the query, then a word that starts with it, then anything else. Ties keep alphabetical order. An empty query returns every extension, after Keyboard Shortcuts. */
+/** Returns the extensions whose names contain every word of the query, best match first: a name that starts with the query, then a word that starts with it, then anything else. Ties keep alphabetical order. An empty query returns every extension, after Extensions and Keyboard Shortcuts. */
 const filter = query => {
   const tokens = query.toLowerCase().split(/\s+/).filter(Boolean)
-  if (!tokens.length) return [keyboardShortcuts, ...extensions]
+  if (!tokens.length) return [extensionsPage, keyboardShortcuts, ...extensions]
   const rank = ({ name }) => (name.toLowerCase().startsWith(tokens.join(' ')) ? 0 : wordStart(name, tokens[0]) ? 1 : 2)
   return extensions
     .filter(({ name }) => tokens.every(token => name.toLowerCase().includes(token)))
