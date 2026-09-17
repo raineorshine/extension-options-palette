@@ -7,8 +7,9 @@ const input = document.querySelector('input')
 const list = document.querySelector('ul')
 
 // chrome://, not brave://: Brave opens either one here, but Chrome leaves brave:// on a blank tab.
+// Manage Extensions, as Chrome's menu names that page, since Extensions names the heading below.
 const pages = [
-  { name: 'Extensions', url: 'chrome://extensions/' },
+  { name: 'Manage Extensions', url: 'chrome://extensions/' },
   { name: 'Keyboard Shortcuts', url: 'chrome://extensions/shortcuts' },
 ]
 const extensionsHeading = Object.assign(document.createElement('li'), {
@@ -22,7 +23,7 @@ let selected = 0
 
 const wordStart = (name, token) => new RegExp(`(^|[^\\p{L}\\p{N}])${RegExp.escape(token)}`, 'iu').test(name)
 
-/** Returns the extensions whose names contain every word of the query, best match first: a name that starts with the query, then a word that starts with it, then anything else. Ties keep alphabetical order. An empty query returns every extension, after Extensions and Keyboard Shortcuts. */
+/** Returns the extensions whose names contain every word of the query, best match first: a name that starts with the query, then a word that starts with it, then anything else. Ties keep alphabetical order. An empty query returns every extension, after Manage Extensions and Keyboard Shortcuts. */
 const filter = query => {
   const tokens = query.toLowerCase().split(/\s+/).filter(Boolean)
   if (!tokens.length) return [...pages, ...extensions]
