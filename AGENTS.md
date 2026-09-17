@@ -84,10 +84,6 @@ All JSON under `~/Library/Application Support/BraveSoftware/Brave-Browser/Defaul
   landed on `chrome-extension://invalid/`. `chrome.tabs.create` loads the page. Presumably Brave counts
   the first two as navigations the extension started, which another extension's pages refuse unless
   it lists them as web accessible.
-- **Having the extension reload itself.** `chrome.runtime.reload()` from its own page left a
-  `--load-extension` copy unloaded, still blocked 8s later, with developer mode on in that profile;
-  removing the page's own tab first dropped the reload altogether. It was not tried on a Load
-  unpacked copy, where failing would cost the user another Load unpacked.
 - **Opening a page from outside Brave.** `open -a 'Brave Browser' 'chrome-extension://<id>/…'` is
   accepted (the session log recorded it), unlike a `brave://` URL. It works; the Karabiner rule built
   on it was replaced by the extension's own shortcut, not abandoned for failing.
