@@ -13,6 +13,18 @@ Extensions heading. The browser loads this folder directly (Load unpacked).
   uses them as masks over the text color, so only their shape counts, not their stroke color.
 - `docs/solutions/` — documented solutions to past problems (bugs, best practices, workflow
   patterns), organized by category with YAML frontmatter (`module`, `tags`, `problem_type`).
+  **A doc there claims as little about the present tree as its point allows, and never a line
+  number.** A `:NN` resolves forever and drifts silently: the reader who checks it lands on
+  whatever moved into that position and reads it as confirmation, which is worse than a dangling
+  reference. Name the symbol instead; it moves with the thing it names. The sibling repos that had
+  written enough episodes to measure found the decay was entirely this one habit — github-triage
+  held 93 such citations in `docs/solutions/` and none anywhere else in its corpus, and every one
+  in dictation-glow's had drifted — so the rule is here before the first episode is, rather than
+  after. Both of those repos gate it; this one has no docs tree and no gate sequence to hang a
+  check on yet, so it is a rule only. **What no gate can check anyway is whether the prose still
+  describes the code**, which is why an episode is written in the past tense about the tree it
+  happened on: a mechanism that has since been replaced is marked and linked forward rather than
+  rewritten, or the record of why the fix made sense goes with it.
 
 ## Why the shortcut is in the extension
 
