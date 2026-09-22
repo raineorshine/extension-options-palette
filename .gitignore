@@ -4,5 +4,9 @@
 .claude/worktrees/
 .claude/settings.local.json
 
+# The extension-test lock, held in the main checkout while a branch is installed
+# in the folder Brave loads.
+.claude/extension-test.lock/
+
 # Compound Engineering: local scratch.
 .context/compound-engineering/
